@@ -1,0 +1,41 @@
+
+
+
+Beim übetragen der Daten die gesamtlänge der Datei in Bytes senden um den Datastream Manuell
+anhand der Byte länge zu schließen.
+
+Anhand einer Variable in der While konstruktion.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Auslagerung ( Handler.java):
+
+//mCurrentPhotoPath = "file://" + file.getAbsolutePath();
+
+
+        //galleryAddPic();
+
+        //Toast.makeText(de.kokoware.byoc.client.MainActivity, "File downloaded.",
+         //       Toast.LENGTH_LONG).show();
+
+
+
+
+         /* private void galleryAddPic() {
+                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                 File f = new File(mCurrentPhotoPath);
+                 Uri contentUri = Uri.fromFile(f);
+                 mediaScanIntent.setData(contentUri);
+                 this.sendBroadcast(mediaScanIntent);
+             }*/
