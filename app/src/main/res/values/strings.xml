@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">BYOC-Client</string>
+    <string name="title_activity_login">Connect</string>
+    <string name="Text_connect">Verbinden mit:</string>
+    <string name="Button_connect">OK</string>
 </resources>

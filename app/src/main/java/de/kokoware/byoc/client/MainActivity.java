@@ -35,6 +35,7 @@ public class MainActivity extends ListActivity {
     public static boolean Handleract;
     private Thread Networking;
     private Runnable Networkingn;
+    private String adr = "0";
 
 
     @Override
@@ -47,13 +48,18 @@ public class MainActivity extends ListActivity {
         StrictMode.setThreadPolicy(policy);
 
 
+       Intent Intent = getIntent();
+       Bundle daten = Intent.getExtras();
+        adr = daten.getString("Socketadr");
+        Log.println(5, "koko", adr);
+        System.out.println(adr);
         Scanner board = new Scanner(System.in);
 
 
         Handleract = false;
 
         try {
-            cs = new Socket("kokoware.de", 3414);
+            cs = new Socket(adr, 3414);
         } catch (IOException e) {
             e.printStackTrace();
         }
