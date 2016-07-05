@@ -61,7 +61,7 @@ public class Handler implements Runnable {
 
 
         // Toast.makeText(MainActivity, "You have selected : " + dateinamen[position] +" to download. Please wait.",
-       //         Toast.LENGTH_LONG).show();
+        //         Toast.LENGTH_LONG).show();
 
 
         //init
@@ -104,11 +104,14 @@ public class Handler implements Runnable {
         }
 
 
-
         try {
             while (((bytesread = nin.read(Buffer)) > 0) && Full)
             {
-                fileout.write(Buffer, 0, bytesread);
+                try {
+                    fileout.write(Buffer, 0, bytesread);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
                 MAX_READ += bytesread;
@@ -119,32 +122,24 @@ public class Handler implements Runnable {
                 if (MAX_READ >= A)
                 {
                     Full = false;
+                    fileout.close();
+
+                    return;
                 }
 
             }
-
-
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
 
         Log.println(5,"koko", "Nicht weiter als Übertragung");
-        Full = true;
-        MainActivity.Handleract = false;
 
 
 
-        try {
-            fileout.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+
+
 
 
 

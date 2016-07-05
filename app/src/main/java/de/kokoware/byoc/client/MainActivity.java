@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -32,8 +33,8 @@ public class MainActivity extends ListActivity {
     public File file;
     public PrintWriter oupt;
     public static boolean Handleract;
-
-
+    private Thread Networking;
+    private Runnable Networkingn;
 
 
     @Override
@@ -46,20 +47,16 @@ public class MainActivity extends ListActivity {
         StrictMode.setThreadPolicy(policy);
 
 
-
         Scanner board = new Scanner(System.in);
 
 
         Handleract = false;
 
         try {
-            cs = new Socket("192.168.178.199", 3414);
+            cs = new Socket("kokoware.de", 3414);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
 
 
         try {
@@ -69,17 +66,11 @@ public class MainActivity extends ListActivity {
         }
 
 
-
         try {
             oupt = new PrintWriter(cs.getOutputStream(), true);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
-
 
 
         oupt.println(1);
@@ -101,26 +92,26 @@ public class MainActivity extends ListActivity {
         }
 
 
-            System.out.println(dateinamen[1]);
-
-
+        System.out.println(dateinamen[1]);
 
 
         //Listview adapter
         setListAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,dateinamen));
+                android.R.layout.simple_list_item_1, dateinamen));
     }
+
     public void onListItemClick(ListView parent, View v,
                                 int position, long id) {
 
 
-
-        if(Handleract == false) {
-            Thread Networking = new Thread(new Handler(dateinamen, cs, file, oupt, position, i, bytesread, Buffer, mCurrentPhotoPath  ));
+        if (!Handleract || !Networking.isAlive()) {
+            Networking = new Thread(new Handler(dateinamen, cs, file, oupt, position, i, bytesread, Buffer, mCurrentPhotoPath));
+            Networking.setDaemon(true);
             Networking.start();
+
+
             Handleract = true;
         }
-
 
 
 
@@ -129,17 +120,16 @@ public class MainActivity extends ListActivity {
                 Toast.LENGTH_LONG).show();
 
 
-
-
     }
-   // android Options Menu
+
+    // android Options Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_menu, menu);
         return true;
     }
 
-    public void onGroupItemClick (MenuItem item) {
+    public void onGroupItemClick(MenuItem item) {
         if (item.isChecked()) {
             item.setChecked(false);
         } else {
@@ -148,19 +138,41 @@ public class MainActivity extends ListActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         Toast.makeText(this, item.getTitle(), Toast.LENGTH_LONG).show();
         return true;
     }
 
 
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
